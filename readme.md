@@ -1,11 +1,11 @@
 # Particle Argon
 The Particle Argon is a development kit with Wi-Fi and Bluetooth radios for building connected projects and products.
 
-Projects in this Argon Repository:
-1. Argon Setup
-2. Use of Temperature/Humidity Sensor
-3. Chainable LED-use
-4. Heart rate check
+## Projects in this Argon Repository:
+1. [Argon Setup](https://github.com/wagglehands/Particle-Play/edit/main/readme#set-up-argon) 
+2. [Use of Temperature/Humidity Sensor](https://github.com/wagglehands/Particle-Play/edit/main/readme#the-argon-kit-comes-with-the-following-things)
+3. [Controlling a Chainable LED](https://github.com/wagglehands/Particle-Play/edit/main/readme#projects-in-this-argon-repository)
+4. [Using the Light Sensor](https://github.com/wagglehands/Particle-Play/edit/main/readme#set-up-argon)
 5. Simple Parking Sensor
 6. Couple's Light
 
@@ -19,29 +19,23 @@ Projects in this Argon Repository:
 -One light-emitting diode (LED)
 -One phototransistor
 
-## Set up Argon
-Once you're ready to proceed, use the online setup application to configure your new Argon. The process includes the following.
-
+# Set up Argon
+Once you're ready to proceed, use the online setup application to configure your new Argon. The process includes the following:
 Registration of your device with your Particle account
 Connection of your device to the Particle Device Cloud
 Once you've completed the setup you will be able to program your device and send over-the-air (OTA) updates to it.
 
 #### NOTES:
 1.) If you have already set up your Argon, skip to Step #2.
-
 2.) We recommend setting up the Argon as stanadalone device, not as a part of a mesh network. See mesh deprecation for more information.
 
 ### Open the Web IDE
 To program your Argon, open a new browser tab and go to the Web IDE. You will see a layout like the image below.
-
 NOTE: The Web IDE is one of the ways you can write, compile, and deploy code to your Particle devices.
-
 If you're looking for a more traditional embedded development experience, be sure to learn about Particle Workbench, a full toolchain integration with Microsoft Visual Studio Code.
 
 ### Load the Blink example
-
 Click on Blink an LED on the left side of the page. As soon as you click the Blink and LED code will load and fill the screen as shown below.
-
 The code is heavily commented to help you understand the general structure of the sketch: the first part of the code declares two variables, the setup() function configures two pins as outputs, and finally the loop() which turns the onboard LED on, then off, then loops continuously.
 
 #### Target your device
@@ -49,11 +43,9 @@ The Web IDE can be used with multiple devices. As such, when you go to compile s
 
 ### Compile your code & flash
 Click the lightning bolt icon on the top left of your screen to flash your code to your device.
-
 As soon as you click, the Particle Device cloud will compile the program source code to a binary file and send it over-the-air (OTA) to your Argon.
 
-For more hardware examples to try, visit the hardware examples.
-### Particle Variables: measure temperature & humidity
+# Particle Variables: Measure Temperature & Humidity
 The Particle Device OS provides a simple way to access sensor values and device local state through the variable primitive. Registering an item of firmware state as a variable enables you to retrieve that state from the Particle Device Cloud. Let's explore this now with the help of the Grove Temperature and Humidity sensor.
 
 ## Connect the temperature sensor
@@ -94,15 +86,12 @@ delay(10000);
 }
 
 **Now, flash this code to your device. Open the command palette (CMD/CTRL+SHIFT+P) and select the Particle: Cloud Flash option.**
-
 Finally, open a terminal window and run the particle serial monitor command. Once your Argon comes back online, it will start logging environment readings to the serial console.
 Now that you've connected the sensor, let's sprinkle in some Particle goodness.
 
-Store sensor data in Particle variables
+**Store sensor data in Particle variables**
 To use the Particle variable primitive, you need global variables to access.
-
 Start by moving the first line of your loop which declares the two environment variables (temp and humidity) to the top of your project, outside of the setup and loop functions.
-
 Then, add two more variables of type double. We'll need these because the Particle Cloud expects numeric variables to be of type int or double.
 
 #include "Grove_Temperature_And_Humidity_Sensor.h"
@@ -126,7 +115,6 @@ Particle.variable("humidity", humidity_dbl);
 temp_dbl = temp;
 humidity_dbl = humidity;
 
-
 Flash this code to your device and, when the Argon comes back online, move on to the next step.
 Accessing Particle variables from the console
 To view the variables you just created, open the Particle Console by navigating to console.particle.io and clicking on your device.
@@ -136,24 +124,19 @@ On the device detail page, your variables will be listed on the right side, unde
 Click the Get button next to each variable to see its value.
 Now that you've mastered Particle variables for reading sensor data, let's look at how you can use the function primitive to trigger an action on the device.
 
-## Particle Functions: controlling a Chainable LED
+# Particle Functions: Controlling a Chainable LED
 As with Particle variables, the function primitive exposes our device to the Particle Device Cloud. Where variables expose state, functions expose actions.
 
 In this section, you'll use the Grove Chainable LED and the Particle.function command to take a heart-rate reading, on demand.
 
 **Connect the Chainable LED**
 Open the bag containing the chainable LED and take one connector out of the bag.
-
 Connect one end of the Grove connector to the chainable LED on the side marked IN (the left side if you're looking at the device in a correct orientation).
-
 Plug the other end of the connector into the Shield port labeled A4.
-
 As with the Temp and Humidity sensor, you'll need a library to help us program the chainable LED. Using the same process you followed in the last module, add the Grove_ChainableLED library to your project in Particle Workbench.
-
 Once the library has been added, add an include and create an object for the ChainableLED class at the top of your code file. The first two parameters specify which pin the LED is wired to, and the third is the number of LEDs you have chained together, just one in your case.
 #include "Grove_ChainableLED.h"
 ChainableLED leds(A4, A5, 1);
-
 
 Now, initialize the object in your setup function. You'll also set the LED color to off after initialization.
 leds.init();
@@ -166,7 +149,6 @@ int toggleLed(String args) {
 }
 
 **In the toggleLED function, add a few lines turn the LED red, delay for half a second, and then turn it off again.**
-
 int toggleLed(String args) {
 leds.setColorHSB(0, 0.0, 1.0, 0.5);
 delay(500);
@@ -197,7 +179,7 @@ For the final section of this lab, you're going to explore the Particle pub/sub 
 ### Connect the light sensor
 To connect the light sensor, connect a Grove cable to the port of the sensor. Then, connect the other end of the cable to the Analog A0/A1 port on the Grove shield.
 
-## Using the light sensor
+# Particle Functions: Using the light sensor
 Let's set-up the sensor on the firmware side so that you can use it in our project. The light sensor is an analog device, so configuring it is easy, no library needed.
 
 You'll need to specify that the light sensor is an input using the pinMode function. Add the following line to your setup function:
@@ -210,16 +192,14 @@ Now, in the loop function, let's read from the sensor and use the map function t
 double lightAnalogVal = analogRead(A0);
 currentLightLevel = map(lightAnalogVal, 0.0, 4095.0, 0.0, 100.0);
 
-
 Now, let's add a conditional to check the level and to publish an event using Particle.publish if the value goes over a certain threshold.
 if (currentLightLevel > 50) {
 Particle.publish("light-meter/level", String(currentLightLevel), PRIVATE);
 }
 
-
 Flash the device and open the Particle Console dashboard for your device. Shine a light on the sensor and you'll start seeing values show up in the event log.
 
-Subscribe to published messages from the Particle CLI
+**Subscribe to published messages from the Particle CLI**
 In addition to viewing published messages from the console, you can subscribe to them using Particle.subscribe on another device, or use the Device Cloud API to subscribe to messages in an app. Let's use the Particle CLI to view messages as they come across.
 
 Open a new terminal window and type particle subscribe light-meter mine.
@@ -227,7 +207,8 @@ Open a new terminal window and type particle subscribe light-meter mine.
 Shine a light on the light sensor and wait for readings. You should see events stream across your terminal. Notice that the light-meter string is all you need to specify to get the light-meter/latest events. By using the forward slash in events, can subscribe via greedy prefix filters.
 Congratulations! You've made it through our first IoT Starter Kit project. This is just the beginning of what's possible with the hardware in front of you.
 
-##Couples Light
+# Couples Light
+
 ## OVERVIEW
 This project includes two Particle Argon IoT devices. The goal of this project is to achieve communication via LEDs that light up to heart beat pulses and can send signals over any distance. The only requirement is that both of the Particle Argon IOT devices must be connected to WIFI so the signal is sent successfully. When the button is pressed on an Argon, three LEDs flash and when the heartbeat sensor is held, LED connected to D6 flashes. This can be configured to use any colored LED without needing to code anything. If more or less LEDs are wanted that can be configured with a simple addition of another LED into a code. The time delay between the LEDs lighting up can also be configured simply in the code.
 
@@ -331,22 +312,16 @@ Grove sensors included in the IoT Starter Kit.
 
 -Button
     Sensor Type: Digital
-
 -Rotary angle sensor
     Sensor Type: Analog
-
 -Ultrasonic ranger
 Sensor Type: Digital
- 
 -Temperature and humidity sensor
 Sensor Type: Digital
-
 -Light sensor
 Sensor Type: Analog
-
 -Chainable LED
 Sensor Type: Serial
-
 -Buzzer
 Sensor Type: Digital
 
