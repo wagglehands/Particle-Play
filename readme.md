@@ -4,7 +4,7 @@ The Particle Argon is a development kit with Wi-Fi and Bluetooth radios for buil
  Projects in this Argon Repository:
  
 1. [Argon Setup](https://github.com/wagglehands/Particle-Play/edit/main/readme#set-up-argon) 
-2. [se of Temperature Humidity Sensor
+2. Use of Temperature Humidity Sensor
 3. Controlling a Chainable LED
 4. Using the Light Sensor
 5. Simple Parking Sensor
