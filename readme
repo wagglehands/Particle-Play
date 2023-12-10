@@ -1,7 +1,13 @@
 # Particle Argon
 The Particle Argon is a development kit with Wi-Fi and Bluetooth radios for building connected projects and products.
 
-To set up your Argon, you'll need an Android or iOS mobile phone and a connection to the internet.
+Projects in this Argon Repository:
+1. Argon Setup
+2. Use of Temperature/Humidity Sensor
+3. Chainable LED-use
+4. Heart rate check
+5. Simple Parking Sensor
+6. Couple's Light
 
 ## The Argon kit comes with the following things:
 -Argon development kit
@@ -65,7 +71,6 @@ Once the library is installed, add it to your project via an #include statement 
 #### Tip: Get any error message from Workbench?
 From time-to-time, the IntelliSense engine in VS Code that Workbench depends on may report that it cannot find a library path and draw a red squiggly under your #include statement above. As long as your code compiles, (which you can verify by opening the command palette [CMD/CTRL+SHIFT+P] and choosing the Particle: compile application (local)) you can ignore this error.
 You can also resolve the issue by trying one of the steps detailed in this community forum post, here.
-
 
 ### Next, initialize the sensor, just after the #include statement.
 DHT dht(D2);
@@ -214,7 +219,6 @@ Particle.publish("light-meter/level", String(currentLightLevel), PRIVATE);
 
 Flash the device and open the Particle Console dashboard for your device. Shine a light on the sensor and you'll start seeing values show up in the event log.
 
-
 Subscribe to published messages from the Particle CLI
 In addition to viewing published messages from the console, you can subscribe to them using Particle.subscribe on another device, or use the Device Cloud API to subscribe to messages in an app. Let's use the Particle CLI to view messages as they come across.
 
@@ -223,10 +227,104 @@ Open a new terminal window and type particle subscribe light-meter mine.
 Shine a light on the light sensor and wait for readings. You should see events stream across your terminal. Notice that the light-meter string is all you need to specify to get the light-meter/latest events. By using the forward slash in events, can subscribe via greedy prefix filters.
 Congratulations! You've made it through our first IoT Starter Kit project. This is just the beginning of what's possible with the hardware in front of you.
 
-Further projects and resources
-Other projects you can build using the components include
+##Couples Light
+## OVERVIEW
+This project includes two Particle Argon IoT devices. The goal of this project is to achieve communication via LEDs that light up to heart beat pulses and can send signals over any distance. The only requirement is that both of the Particle Argon IOT devices must be connected to WIFI so the signal is sent successfully. When the button is pressed on an Argon, three LEDs flash and when the heartbeat sensor is held, LED connected to D6 flashes. This can be configured to use any colored LED without needing to code anything. If more or less LEDs are wanted that can be configured with a simple addition of another LED into a code. The time delay between the LEDs lighting up can also be configured simply in the code.
 
-Build a simple proximity detector
+## WIRING
+The Button is connected to ground, positive and D4, the LED's are connected to D6, D5, and D3 and also to the ground strip. The heart beat sensor is connected to positive, ground, and A1. There is also a couple jumper wires going from 3v3 to positive strip and ground to the negative strip. The both of the ground strips are being powered by a jumper wire.
+
+## Simple Parking Sensor
+This code checks if there is something less than 25 centimeters near the sensor and if there is, this means that there is a car. You can change this number to anything that you want as long as it's less than 400cm, the max distance of the sensor.
+
+## **STEP 1 SETUP WIRING**
+Connect Vcc to VUSB
+Connect Trig to D2.
+Connect Echo to D6.
+Connect Gnd to Gnd.
+Note: make sure the sensor is not tilted in any way because this will skew the results
+
+## STEP 2 Create the Spreadsheet
+Create a spreadsheet and give it a name.
+The first column will be the device ID, followed by date and parking status. 
+**change the default spreadsheet script**
+click on extensions and apps script
+replace the default code with the following, to publish device's ID, , the date and time the event was run in the second column, and the data (parked or not) in the third column.
+If you don't want your device ID to be a column in your spreadsheet, you can go to the line that starts with var row and delete e.parameter.coreid.
+
+function doPost(e) {
+
+  var publishedAt = new Date(e.parameter.published_at);
+
+  var dataArray = [];
+  try {
+    dataArray = JSON.parse(e.parameter.data);
+  }
+  catch(e) {
+  }
+
+  var sheet = SpreadsheetApp.getActiveSheet();
+
+  var row = [e.parameter.coreid, publishedAt, e.parameter.data];
+
+  row = row.concat(dataArray);
+
+  sheet.appendRow(row);
+
+  var result = {};
+  result.ok = true;
+
+  return ContentService.createTextOutput(JSON.stringify(result))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+**Publishing the Script**
+In order for this code to actually work you have to publish and deploy the script.
+
+In the upper right hand corner, click on Deploy and select New deployment.
+
+Execute as: Set this option to me.
+Who has access: set this option to Anyone.
+
+**Click Deploy**
+Web app URL: This link will be used in the next step when creating the webhook. Make sure to copy it for later use but keep it a secret, because anyone with this link will be able to make changes to your spreadsheet.
+
+## **STEP 3 CREATE WEBHOOKS**
+You are going to be making two webhooks, one that will communicate with the spreadsheet and one that will communicate with IFTTT to send the text to your phone.
+
+**The Spreadsheet Webhook**
+Go to https://console.particle.io/integrations, the Integrations tab on Particle's homepage.
+Click on create new integration and select Webhook, then give the event a name.
+Paste the link you copied into the URL field.
+Set Request Type to Post.
+Set Request Format to Web Form.
+
+**The Text Webhook**
+Follow the previous steps to create a new webhook and give the event a name. This webhook will be for triggering the text to send.
+Leave the URL field blank for now, we will come back to this in the next step.
+
+## **STEP 4 IFTTT**
+Go to https://ifttt.com/create and click Add on If This.
+Search up webhooks and select it.
+
+Click on Receive a web request with a JSON payload and type in the name of your event (What you named your text webhook).
+
+Next, click on Then That and search ClickSend Sms and select it. 
+ClickSend gives you about $2 for free to begin with but then after that you have to fund your own texts. I sent exactly 70 texts before running out of money.
+
+Click on the Send Sms action and fill out the To and From fields.
+In the message field copy and paste this: Parked: {{ {{OccurredAt}}}}.
+This will send a text message to your phone when the event was triggered (a parked car) as well as the date and time of when it occurred.
+
+Go to https://ifttt.com/maker_webhooks/settings and copy the IFTTT API key which is directly after use/ in the URL.
+Replace TestEvent with the name of your event and paste your API key after /key/
+
+https://maker.ifttt.com/trigger/TestEvent/json/with/key/bCYXXXXXXXX_YfdXXXXXeV
+
+Go back to the text webhook you created and paste your newly created link into the URL field
+
+**Note:**
+The sensor will return -1 if it reads a distance that is less than 10 centimeters because that is the minimum possible distance that the sensor can recognize (or greater than 400cm). Another reason that it could either be reading -1 or reading very inaccurate numbers is if you plugged your VCC wire into 3V instead of 5V, which is something that I am guilty of doing myself. Also make sure that you are using something solid to test with and not your hand because the ultrasonic sensor uses soundwaves to measure distance so you want something that the soundwaves can easily bounce off of. To test the sensor use something like cardboard and slide it in front of the sensor with the serial monitor up and running to see if the distance seems accurate or not. You can also measure the distance yourself with a ruler if you aren't sure if it's entirely accurate.
 
 Appendix: Grove sensors
 Grove sensors included in the IoT Starter Kit.
