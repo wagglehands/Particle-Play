@@ -1,11 +1,12 @@
 # Particle Argon
 The Particle Argon is a development kit with Wi-Fi and Bluetooth radios for building connected projects and products.
 
-## Projects in this Argon Repository:
+ Projects in this Argon Repository:
+ 
 1. [Argon Setup](https://github.com/wagglehands/Particle-Play/edit/main/readme#set-up-argon) 
-2. [Use of Temperature/Humidity Sensor](https://github.com/wagglehands/Particle-Play/edit/main/readme.md#measure-temperature-&-humidity)
-3. [Controlling a Chainable LED](https://github.com/wagglehands/Particle-Play/edit/main/readme#projects-in-this-argon-repository)
-4. [Using the Light Sensor](https://github.com/wagglehands/Particle-Play/edit/main/readme#set-up-argon)
+2. [se of Temperature Humidity Sensor
+3. Controlling a Chainable LED
+4. Using the Light Sensor
 5. Simple Parking Sensor
 6. Couple's Light
 
@@ -43,6 +44,7 @@ Click the lightning bolt icon on the top left of your screen to flash your code 
 As soon as you click, the Particle Device cloud will compile the program source code to a binary file and send it over-the-air (OTA) to your Argon.
 
 # Measure Temperature & Humidity
+
 The Particle Device OS provides a simple way to access sensor values and device local state through the variable primitive. Registering an item of firmware state as a variable enables you to retrieve that state from the Particle Device Cloud. Let's explore this now with the help of the Grove Temperature and Humidity sensor.
 
 ## Connect the temperature sensor
