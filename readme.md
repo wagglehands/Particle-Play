@@ -3,7 +3,7 @@ The Particle Argon is a development kit with Wi-Fi and Bluetooth radios for buil
 
 ## Projects in this Argon Repository:
 1. [Argon Setup](https://github.com/wagglehands/Particle-Play/edit/main/readme#set-up-argon) 
-2. [Use of Temperature/Humidity Sensor](https://github.com/wagglehands/Particle-Play/edit/main/readme#the-argon-kit-comes-with-the-following-things)
+2. [Use of Temperature/Humidity Sensor](https://github.com/wagglehands/Particle-Play/edit/main/readme.md#the-argon-kit-comes-with-the-following-things)
 3. [Controlling a Chainable LED](https://github.com/wagglehands/Particle-Play/edit/main/readme#projects-in-this-argon-repository)
 4. [Using the Light Sensor](https://github.com/wagglehands/Particle-Play/edit/main/readme#set-up-argon)
 5. Simple Parking Sensor
@@ -33,19 +33,16 @@ Once you've completed the setup you will be able to program your device and send
 To program your Argon, open a new browser tab and go to the Web IDE. You will see a layout like the image below.
 NOTE: The Web IDE is one of the ways you can write, compile, and deploy code to your Particle devices.
 If you're looking for a more traditional embedded development experience, be sure to learn about Particle Workbench, a full toolchain integration with Microsoft Visual Studio Code.
-
 ### Load the Blink example
 Click on Blink an LED on the left side of the page. As soon as you click the Blink and LED code will load and fill the screen as shown below.
 The code is heavily commented to help you understand the general structure of the sketch: the first part of the code declares two variables, the setup() function configures two pins as outputs, and finally the loop() which turns the onboard LED on, then off, then loops continuously.
-
 #### Target your device
 The Web IDE can be used with multiple devices. As such, when you go to compile source code, it's a good idea to verify that the device you are intending to program has a gold star to the left of its name in the Devices tab (circle with 4 lines).
-
 ### Compile your code & flash
 Click the lightning bolt icon on the top left of your screen to flash your code to your device.
 As soon as you click, the Particle Device cloud will compile the program source code to a binary file and send it over-the-air (OTA) to your Argon.
 
-# Particle Variables: Measure Temperature & Humidity
+# Measure Temperature & Humidity
 The Particle Device OS provides a simple way to access sensor values and device local state through the variable primitive. Registering an item of firmware state as a variable enables you to retrieve that state from the Particle Device Cloud. Let's explore this now with the help of the Grove Temperature and Humidity sensor.
 
 ## Connect the temperature sensor
